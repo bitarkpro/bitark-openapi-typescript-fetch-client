@@ -1,0 +1,33 @@
+{
+  "name": "bitark-openapi-typescript-fetch-client",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "npm run build && mocha --ui bdd --recursive ./dist/test --timeout 90000 && mocha --ui bdd --recursive ./dist/e2e --timeout 90000",
+    "build": "tsc",
+    "prepare": "npm run build"
+  },
+  "typings": "./dist/index.d.ts",
+  "dependencies": {
+    "@babel/polyfill": "^7.12.1",
+    "@types/chai": "^4.2.14",
+    "@types/mocha": "^8.2.0",
+    "chai": "^4.2.0",
+    "mocha": "^8.2.1",
+    "node-fetch": "^2.6.1",
+    "rxjs": "^6.6.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.14.8",
+    "@babel/core": "^7.14.8",
+    "@babel/node": "^7.14.7",
+    "@babel/preset-env": "^7.14.8"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "keywords": [],
+  "author": "",
+  "description": ""
+}
