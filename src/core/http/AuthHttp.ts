@@ -6,6 +6,7 @@ import { AuthRepository } from "../api/AuthRepository";
 import { AuthRoutesApi } from "../api/AuthRoutesApi";
 import { AuthDto } from "../dto/AuthDto";
 import { Http } from "./Http";
+import {UserDto} from "..";
 
 export class AuthHttp extends Http implements AuthRepository {
     /**
@@ -35,42 +36,84 @@ export class AuthHttp extends Http implements AuthRepository {
     register(username: string, password: string): Observable<AuthModel> {
         return this.call(this.authRoutesApi.register(username, password), AuthHttp.toAuthModel);
     }
+
+    getUserInfo(token:string): Observable<UserModel> {
+        return this.call(this.authRoutesApi.getUserInfo(token), AuthHttp.toUserModel);
+    }
     
     public static toAuthModel(dto: AuthDto): AuthModel {
-        return new AuthModel(dto.code,dto.msg,dto.msgCode,new UserModel(
-             dto.data.user.uuid,
-             dto.data.user.userName,
-             dto.data.user.bit,
-             dto.data.user.phone,
-             dto.data.user.email,
-             dto.data.user.nickName,
-             dto.data.user.headerImg,
+        return new AuthModel(new UserModel(
+             dto.user.uuid,
+             dto.user.userName,
+             dto.user.bit,
+             dto.user.phone,
+             dto.user.email,
+             dto.user.nickName,
+             dto.user.headerImg,
              new AuthorityModel(
-                dto.data.user.authority.authorityId,
-                dto.data.user.authority.authorityName,
-                dto.data.user.authority. parentId,
-                dto.data.user.authority. dataAuthorityId,
-                dto.data.user.authority. children,
-                dto.data.user.authority. menus,
-                dto.data.user.authority. defaultRouter,
-                dto.data.user.authority. id,
-                dto.data.user.authority. createdAt,
-                dto.data.user.authority. updatedAt,
-                dto.data.user.authority. deletedAt,
+                dto.user.authority.authorityId,
+                dto.user.authority.authorityName,
+                dto.user.authority. parentId,
+                dto.user.authority. dataAuthorityId,
+                dto.user.authority. children,
+                dto.user.authority. menus,
+                dto.user.authority. defaultRouter,
+                dto.user.authority. id,
+                dto.user.authority. createdAt,
+                dto.user.authority. updatedAt,
+                dto.user.authority. deletedAt,
              ),
-             dto.data.user.authorityId,
-             dto.data.user.sideMode,
-             dto.data.user.activeColor,
-             dto.data.user.baseColor,
-             dto.data.user.openId,
-             dto.data.user.githubId,
-             dto.data.user.integral,
-             dto.data.user.totalstor,
-             dto.data.user.maxTotalstor,
-             dto.data.user.id,
-             dto.data.user.createdAt,
-             dto.data.user.updatedAt,
-             dto.data.user.deletedAt,
-        ), dto.data.token, dto.data.expiresAt)
+             dto.user.authorityId,
+             dto.user.sideMode,
+             dto.user.activeColor,
+             dto.user.baseColor,
+             dto.user.openId,
+             dto.user.githubId,
+             dto.user.integral,
+             dto.user.totalstor,
+             dto.user.maxTotalstor,
+             dto.user.id,
+             dto.user.createdAt,
+             dto.user.updatedAt,
+             dto.user.deletedAt,
+        ), dto.token, dto.expiresAt)
+    }
+
+    public static toUserModel(dto: UserDto): UserModel {
+        return new UserModel(
+            dto.uuid,
+            dto.userName,
+            dto.bit,
+            dto.phone,
+            dto.email,
+            dto.nickName,
+            dto.headerImg,
+            new AuthorityModel(
+                dto.authority.authorityId,
+                dto.authority.authorityName,
+                dto.authority. parentId,
+                dto.authority. dataAuthorityId,
+                dto.authority. children,
+                dto.authority. menus,
+                dto.authority. defaultRouter,
+                dto.authority. id,
+                dto.authority. createdAt,
+                dto.authority. updatedAt,
+                dto.authority. deletedAt,
+            ),
+            dto.authorityId,
+            dto.sideMode,
+            dto.activeColor,
+            dto.baseColor,
+            dto.openId,
+            dto.githubId,
+            dto.integral,
+            dto.totalstor,
+            dto.maxTotalstor,
+            dto.id,
+            dto.createdAt,
+            dto.updatedAt,
+            dto.deletedAt,
+        )
     }
 }

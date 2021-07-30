@@ -61,7 +61,6 @@ export function UserDtoToJSON(value?: UserDto | null): any {
         'updatedAt': value.updatedAt,
         'deletedAt': value.deletedAt,
         'authority': AuthorityDtoToJSON(value.authority)
-
     };
 
 }

@@ -1,6 +1,7 @@
 import { AuthDto, AuthDtoFromJSON } from '../dto/AuthDto';
 import * as runtime from '../util/runtime';
 import json = Mocha.reporters.json;
+import {UserDto, UserDtoFromJSON} from "..";
 
 export interface GetAuthLoginRequest {
 	username: string,
@@ -14,6 +15,10 @@ export interface GetAuthRegisterRequest {
 
 export interface GetAuthGithubCodeRequest {
 	code :string
+}
+
+export interface GetTokenRequest {
+	token:string
 }
 
 export class AuthRoutesApi extends runtime.BaseAPI {
@@ -42,7 +47,6 @@ export class AuthRoutesApi extends runtime.BaseAPI {
 		const response = await this.githubCodeReq({code:code});
 		return await response.value();
 	}
-
 	private async githubCodeReq(requestParameters: GetAuthGithubCodeRequest): Promise<runtime.ApiResponse<AuthDto>> {
 		const queryParameters: runtime.HTTPQuery = {};
 		const headerParameters: runtime.HTTPHeaders = {};
@@ -74,6 +78,24 @@ export class AuthRoutesApi extends runtime.BaseAPI {
 			query: queryParameters,
 		});
 		return new runtime.JSONApiResponse(response, (jsonValue) => AuthDtoFromJSON(jsonValue));
+	}
+
+
+	public async getUserInfo(token:string): Promise<UserDto> {
+		const response = await this.getUserInfoReq({token});
+		return await response.value();
+	}
+
+	private async getUserInfoReq(requestParameters: GetTokenRequest): Promise<runtime.ApiResponse<UserDto>> {
+		const queryParameters: runtime.HTTPQuery = {};
+		const headerParameters: runtime.HTTPHeaders = {"x-token":requestParameters.token};
+		const response = await this.request({
+			path: `/user/info`,
+			method: 'GET',
+			headers: headerParameters,
+			query: queryParameters,
+		});
+		return new runtime.JSONApiResponse(response, (jsonValue) => UserDtoFromJSON(jsonValue.data));
 	}
 
 }
